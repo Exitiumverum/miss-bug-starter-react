@@ -80,33 +80,17 @@ export function BugIndex() {
     }
 
     return <section className="bug-index main-content">
-<<<<<<< HEAD:public/pages/BugIndex.jsx
 
         <BugFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
-=======
-        
->>>>>>> d4460168a84ead7d76bfda4454486e1e4b6fad33:pages/BugIndex.jsx
         <header>
             <h2>Bug List</h2>
             <button onClick={onAddBug}>Add Bug</button>
         </header>
-<<<<<<< HEAD:public/pages/BugIndex.jsx
 
         <BugList
             bugs={bugs}
             onRemoveBug={onRemoveBug}
             onEditBug={onEditBug}
             onEditDesc={onEditDesc} />
-=======
-        
-        <BugFilter 
-            filterBy={filterBy} 
-            onSetFilterBy={onSetFilterBy} />
-
-        <BugList 
-            bugs={bugs} 
-            onRemoveBug={onRemoveBug} 
-            onEditBug={onEditBug} />
->>>>>>> d4460168a84ead7d76bfda4454486e1e4b6fad33:pages/BugIndex.jsx
     </section>
 }
