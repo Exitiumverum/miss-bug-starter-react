@@ -1,7 +1,8 @@
 const { useState, useEffect } = React
 
 
-import { bugService } from '../services/bug.service.local.js'
+import { bugService } from '../services/bug.service.js'
+import { utilService } from '../services/util.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 import { BugFilter } from '../cmps/BugFilter.jsx'
@@ -31,8 +32,10 @@ export function BugIndex() {
 
     function onAddBug() {
         const bug = {
+            _id: utilService.makeId(),
             title: prompt('Bug title?', 'Bug ' + Date.now()),
-            severity: +prompt('Bug severity?', 3)
+            severity: +prompt('Bug severity?', 3),
+            description: prompt('Whats the description?')
         }
 
         bugService.save(bug)
@@ -40,7 +43,7 @@ export function BugIndex() {
                 setBugs([...bugs, savedBug])
                 showSuccessMsg('Bug added')
             })
-            .catch(err => showErrorMsg(`Cannot add bug`, err))
+            .catch(err => showErrorMsg(`Cannot add bug`, err, bug))
     }
 
     function onEditDesc(bug) {
@@ -49,10 +52,10 @@ export function BugIndex() {
 
         bugService.save(BUG_TO_SAVE)
             .then(savedBug => {
-                const bugsToUpdate = bugs.map(currBug => 
+                const bugsToUpdate = bugs.map(currBug =>
                     currBug._id === savedBug._id ? savedBug : currBug)
-                    setBugs(bugsToUpdate)
-                    showSuccessMsg('Description updated')
+                setBugs(bugsToUpdate)
+                showSuccessMsg('Description updated')
             })
             .catch(err => showErrorMsg('Cannot update description', err))
     }

@@ -4,8 +4,11 @@ import { loggerService } from './services/logger.service.js'
 
 const app = express()
 
-app.get('/', (req, res) => res.send('Hello there'))
-app.listen(3030, () => console.log('Server ready at port 3030'))
+app.use(express.static('public'))
+// app.use(cookieParser())
+app.use(express.json())
+
+// app.get('/', (req, res) => res.send('Hello there'))
 
 app.get('/api/bug', (req, res) => {
 
@@ -17,13 +20,15 @@ app.get('/api/bug', (req, res) => {
         })
 })
 
-app.get('/api/bug/save', (req, res) => {
+app.put('/api/bug/:id', (req, res) => {
+    console.log('heloo put');
+    
     const bugToSave = {
-        _id: req.query._id,
-        title: req.query.title,
-        description: req.query.description,
-        severity: req.query.severity,
-        createdAt: req.query.createdAt
+        _id: req.body._id, // Changed from req.query to req.body
+        title: req.body.title, // Changed from req.query to req.body
+        description: req.body.description, // Changed from req.query to req.body
+        severity: req.body.severity, // Changed from req.query to req.body
+        createdAt: req.body.createdAt
     }
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
@@ -52,3 +57,8 @@ app.get('/api/bug/:bugId/remove', (req, res) => {
             res.status(500).send('Cannot remove bug')
         })
 })
+
+const port = 3030
+app.listen(port, () =>
+    loggerService.info(`Server listening on port http://127.0.0.1:${port}/`)
+)
